@@ -9,11 +9,12 @@
  */
 package edu.bu.met.cs665;
 
-import edu.bu.met.cs665.observer.*;
-import edu.bu.met.cs665.subject.*;
 import edu.bu.met.cs665.exception.InvalidDataException;
+import edu.bu.met.cs665.factory.CustomerFactory;
 import edu.bu.met.cs665.loader.FileLoader;
-import edu.bu.met.cs665.model.*;
+import edu.bu.met.cs665.customer.Customer;
+import edu.bu.met.cs665.customer.CustomerType;
+import edu.bu.met.cs665.email.*;
 
 import java.util.List;
 
@@ -33,51 +34,22 @@ public class Main {
    * @throws InterruptedException If there's an interrupted exception.
    */
   public static void main(String[] args) throws InvalidDataException, InterruptedException {
-    Shop shop = new Shop();
     FileLoader loader = new FileLoader();
-    List<Driver> drivers = loader.loadDriverFile("src/data/driver.csv");
+    List<EmailTemplate> templates = loader.loadEmailTemplates("src/data/email_templates.csv");
 
-    for (Driver driver : drivers) {
-      shop.registerObserver(driver);
+    // Displaying the loaded templates
+    System.out.println("Loaded Email Templates:");
+    for (EmailTemplate template : templates) {
+      System.out.println("Customer Type: " + template.getCustomerType());
+      System.out.println("Message: " + template.getMessage());
+      System.out.println("---------------------------");
     }
 
-    printOrderHeader();
-    DeliveryRequest request1 = new DeliveryRequest(
-        "Deliver Electronics",
-        "Laptop Model XYZ",
-        "123 Tech Street, Downtown",
-        "456 Electronics Avenue, City Center",
-        "John Doe",
-        "555-1234");
-    shop.newDeliveryRequest(request1);
+    // Using Enum to create a VIP customer
+    EmailTemplate vipTemplate = EmailTemplate.getTemplateByType(templates, CustomerType.VIP);
+    Customer vip = CustomerFactory.createCustomer(CustomerType.VIP, vipTemplate);
+    System.out.println("Customer Type: " + vip.getType());
+    System.out.println("Email: " + vip.getEmailMessage());
 
-    // Remove the last driver from the list of drivers
-    Driver lastDriver = drivers.remove(drivers.size() - 1);
-    shop.removeObserver(lastDriver);
-    System.out.println("Removed the last driver: " + lastDriver.getName());
-    System.out.println("--------------------------------------------------------");
-
-    printOrderHeader();
-    DeliveryRequest request2 = new DeliveryRequest(
-        "Deliver Groceries",
-        "Assorted fruits and vegetables",
-        "789 Green Lane, Suburbia",
-        "101 Fresh Market, Main Street",
-        "Jane Smith",
-        "555-5678");
-    shop.newDeliveryRequest(request2);
-
-    System.out.println("---------------------------END--------------------------");
-  }
-
-  /**
-   * Utility function to print the order request header.
-   */
-  private static void printOrderHeader() {
-    System.out.println("********************************************************");
-    System.out.println("********************************************************");
-    System.out.println("New Order Request: ");
-    System.out.println("********************************************************");
-    System.out.println("********************************************************");
   }
 }

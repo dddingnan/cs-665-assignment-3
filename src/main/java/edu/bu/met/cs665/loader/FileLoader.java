@@ -17,52 +17,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.bu.met.cs665.exception.InvalidDataException;
-import edu.bu.met.cs665.observer.*;
+import edu.bu.met.cs665.email.EmailTemplate;
 
 public class FileLoader {
 
     public String line = "";
-    public String splitBy = ",";
+    public String splitBy = ";";
 
     /**
-     * Loads drivers data from a given CSV file.
-     * The CSV file format: "<driver_id>,<driver_name>,<is_available>".
+     * Loads email templates data from a given CSV file.
+     * The CSV file format: "<customer_type>;<email_template>".
      *
      * @param fileName Name of the file to be read.
-     * @return A list of Driver objects.
+     * @return A list of EmailTemplate objects.
      * @throws FileNotFoundException If the file does not exist.
      * @throws IOException           If an error occurs while reading the file.
      * @throws InvalidDataException  If data in the file is invalid.
      */
-    public List<Driver> loadDriverFile(String fileName) throws InvalidDataException {
-        List<Driver> drivers = new ArrayList<>();
+    public List<EmailTemplate> loadEmailTemplates(String fileName) throws InvalidDataException {
+        List<EmailTemplate> emailTemplates = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(","); // Split the line by commas
-                if (data.length < 3) { // Ensure you have ID, name, and availability data
-                    System.out.println("Invalid data format: " + line);
-                    continue; // Skip this line and continue with the next line
-                }
-                int id = Integer.parseInt(data[0].trim()); // Parse the ID as an integer
-                String name = data[1].trim();
-                boolean isAvailable = Boolean.parseBoolean(data[2].trim()); // Convert the string to a boolean
+                String[] data = line.split(splitBy);
 
-                drivers.add(new Driver(id, name, isAvailable));
+                if (data.length != 2) {
+                    System.out.println("Invalid data format: " + line);
+                    continue;
+                }
+
+                String customerType = data[0].trim();
+                String message = data[1].trim();
+
+                emailTemplates.add(new EmailTemplate(customerType, message));
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + fileName);
-            return new ArrayList<>(); // Return an empty list if file not found
+            return new ArrayList<>();
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
-            return new ArrayList<>(); // Return an empty list in case of IO errors
-        } catch (NumberFormatException e) {
-            System.out.println("Error parsing driver ID: " + e.getMessage());
-            return new ArrayList<>(); // Return an empty list in case of parsing errors
+            return new ArrayList<>();
         }
 
-        return drivers;
+        return emailTemplates;
     }
 
 }
