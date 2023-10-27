@@ -8,6 +8,7 @@ public class VIPCustomer extends Customer {
     }
 
     @Override
+    // Update the string.
     public String getType() {
         return "VIP";
     }

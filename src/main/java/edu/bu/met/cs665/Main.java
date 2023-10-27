@@ -45,6 +45,7 @@ public class Main {
       System.out.println("---------------------------");
     }
 
+    // TODO Create more customer and write the juni test.
     // Using Enum to create a VIP customer
     EmailTemplate vipTemplate = EmailTemplate.getTemplateByType(templates, CustomerType.VIP);
     Customer vip = CustomerFactory.createCustomer(CustomerType.VIP, vipTemplate);
