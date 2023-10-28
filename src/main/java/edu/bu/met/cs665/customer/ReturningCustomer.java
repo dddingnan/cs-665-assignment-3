@@ -2,23 +2,23 @@
  * Name: Dingnan Hsu
  * Course: CS-665 Software Designs & Patterns
  * Date: 10/28/2023
- * File Name: VIPCustomer.java
+ * File Name: ReturningCustomer.java
  * 
  * Description:
- * Represents a vip customer type and provides the associated 
+ * Represents a return customer type and provides the associated 
  * email template for communication.
  */
 package edu.bu.met.cs665.customer;
 
 import edu.bu.met.cs665.email.EmailTemplate;
 
-public class VIPCustomer extends Customer {
-    public VIPCustomer(EmailTemplate template) {
+public class ReturningCustomer extends Customer {
+    public ReturningCustomer(EmailTemplate template) {
         super(template);
     }
 
     @Override
     public CustomerType getType() {
-        return CustomerType.VIP;
+        return CustomerType.RETURNING;
     }
 }

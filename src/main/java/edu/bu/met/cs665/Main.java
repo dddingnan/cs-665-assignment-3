@@ -1,11 +1,12 @@
 /**
  * Name: Dingnan Hsu
  * Course: CS-665 Software Designs & Patterns
- * Date: 10/03/2023
+ * Date: 10/28/2023
  * File Name: Main.java
- * Description: The main driver class of the application. It simulates the functionality of a delivery request system
- * where retailers can send out delivery requests to drivers. This application utilizes the Observer design pattern
- * to notify drivers of new delivery requests.
+ * Description:
+ * The Main class serves as the entry point for the email generation application.
+ * Its primary responsibility is to load email templates from a CSV file and then
+ * create various customer instances based on these templates. 
  */
 package edu.bu.met.cs665;
 
@@ -23,34 +24,30 @@ public class Main {
   /**
    * Entry point method for the application. This method initializes the system
    * by:
-   * 1. Loading driver details from a CSV file.
-   * 2. Registering the drivers as observers to a shop.
-   * 3. Broadcasting a delivery request to the drivers.
-   * 4. Modifying the list of drivers.
-   * 5. Broadcasting another delivery request.
+   * 1. Using the FileLoader class to load email templates from a designated CSV
+   * file.
+   * 2. Looping through all available customer types as defined in the
+   * CustomerType enum.
+   * 3. For each customer type, it fetches the corresponding email template.
+   * 4. Utilizing the CustomerFactory, it then creates an instance of the
+   * respective customer.
+   * 5. Finally, it displays the type of the customer and the tailored email
+   * message.
    * 
-   * @param args The command line arguments.
    * @throws InvalidDataException If there's an issue loading data.
    * @throws InterruptedException If there's an interrupted exception.
    */
   public static void main(String[] args) throws InvalidDataException, InterruptedException {
     FileLoader loader = new FileLoader();
     List<EmailTemplate> templates = loader.loadEmailTemplates("src/data/email_templates.csv");
-
-    // Displaying the loaded templates
-    System.out.println("Loaded Email Templates:");
-    for (EmailTemplate template : templates) {
-      System.out.println("Customer Type: " + template.getCustomerType());
-      System.out.println("Message: " + template.getMessage());
+    System.out.println("---------------------------");
+    for (CustomerType type : CustomerType.values()) {
+      EmailTemplate template = EmailTemplate.getTemplateByType(templates, type);
+      Customer customer = CustomerFactory.createCustomer(type, template);
+      System.out.println("Customer Type: " + customer.getType());
+      System.out.println("Email: " + customer.getEmailMessage());
       System.out.println("---------------------------");
     }
-
-    // TODO Create more customer and write the juni test.
-    // Using Enum to create a VIP customer
-    EmailTemplate vipTemplate = EmailTemplate.getTemplateByType(templates, CustomerType.VIP);
-    Customer vip = CustomerFactory.createCustomer(CustomerType.VIP, vipTemplate);
-    System.out.println("Customer Type: " + vip.getType());
-    System.out.println("Email: " + vip.getEmailMessage());
 
   }
 }
