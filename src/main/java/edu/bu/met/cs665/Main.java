@@ -1,7 +1,7 @@
 /**
  * Name: Dingnan Hsu
  * Course: CS-665 Software Designs & Patterns
- * Date: 10/03/2023
+ * Date: 10/28/2023
  * File Name: Main.java
  * Description: The main driver class of the application. It simulates the functionality of a delivery request system
  * where retailers can send out delivery requests to drivers. This application utilizes the Observer design pattern
@@ -36,21 +36,14 @@ public class Main {
   public static void main(String[] args) throws InvalidDataException, InterruptedException {
     FileLoader loader = new FileLoader();
     List<EmailTemplate> templates = loader.loadEmailTemplates("src/data/email_templates.csv");
-
-    // Displaying the loaded templates
-    System.out.println("Loaded Email Templates:");
-    for (EmailTemplate template : templates) {
-      System.out.println("Customer Type: " + template.getCustomerType());
-      System.out.println("Message: " + template.getMessage());
+    // Loop through all customer types and instantiate them using the factory
+    for (CustomerType type : CustomerType.values()) {
+      EmailTemplate template = EmailTemplate.getTemplateByType(templates, type);
+      Customer customer = CustomerFactory.createCustomer(type, template);
+      System.out.println("Customer Type: " + customer.getType());
+      System.out.println("Email: " + customer.getEmailMessage());
       System.out.println("---------------------------");
     }
-
-    // TODO Create more customer and write the juni test.
-    // Using Enum to create a VIP customer
-    EmailTemplate vipTemplate = EmailTemplate.getTemplateByType(templates, CustomerType.VIP);
-    Customer vip = CustomerFactory.createCustomer(CustomerType.VIP, vipTemplate);
-    System.out.println("Customer Type: " + vip.getType());
-    System.out.println("Email: " + vip.getEmailMessage());
 
   }
 }

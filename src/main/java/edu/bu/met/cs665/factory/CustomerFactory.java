@@ -8,14 +8,14 @@ public class CustomerFactory {
         switch (type) {
             case VIP:
                 return new VIPCustomer(template);
-            // case BUSINESS:
-            // return new BusinessCustomer(template);
-            // case RETURNING:
-            // return new ReturningCustomer(template);
-            // case FREQUENT:
-            // return new FrequentCustomer(template);
-            // case NEW:
-            // return new NewCustomer(template);
+            case BUSINESS:
+                return new BusinessCustomer(template);
+            case RETURNING:
+                return new ReturningCustomer(template);
+            case FREQUENT:
+                return new FrequentCustomer(template);
+            case NEW:
+                return new NewCustomer(template);
             default:
                 throw new IllegalArgumentException("Unknown customer type: " + type);
         }

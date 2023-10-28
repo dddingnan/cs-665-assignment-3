@@ -9,7 +9,7 @@ public abstract class Customer {
         this.template = template;
     }
 
-    public abstract String getType();
+    public abstract CustomerType getType();
 
     public String getEmailMessage() {
         return template.getMessage();
