@@ -24,6 +24,9 @@ public class CustomerFactory {
      * @throws IllegalArgumentException If the provided customer type is unknown.
      */
     public static Customer createCustomer(CustomerType type, EmailTemplate template) {
+        if (type == null) {
+            throw new IllegalArgumentException("Customer type cannot be null");
+        }
         switch (type) {
             case VIP:
                 return new VIPCustomer(template);

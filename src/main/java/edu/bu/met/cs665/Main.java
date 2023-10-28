@@ -37,7 +37,7 @@ public class Main {
    * @throws InvalidDataException If there's an issue loading data.
    * @throws InterruptedException If there's an interrupted exception.
    */
-  public static void main() throws InvalidDataException, InterruptedException {
+  public static void main(String[] args) throws InvalidDataException, InterruptedException {
     FileLoader loader = new FileLoader();
     List<EmailTemplate> templates = loader.loadEmailTemplates("src/data/email_templates.csv");
     System.out.println("---------------------------");
