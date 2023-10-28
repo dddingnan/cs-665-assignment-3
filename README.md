@@ -1,17 +1,17 @@
 | CS-665       | Software Design & Patterns |
 | ------------ | -------------------------- |
 | Name         | Dingnan Hsu                |
-| Date         | 10/03/2023                 |
+| Date         | 10/28/2023                 |
 | Course       | 2023 Fall                  |
-| Assignment # | 2                          |
+| Assignment # | 3                          |
 
 # Assignment Overview
 
-City retailers have teamed up with local freelance drivers for product deliveries. Develop a system to alert drivers about these requests. When a store gets a delivery order, a notification should be sent to all available drivers.
+A company serves various customer segments, including Business, Returning, Frequent, New, and VIP.The management requires an efficient solution to send personalized emails to their customers. To achieve this, they require a custom application that can automatically generate emails based on a template, and tailored type of customer.
 
 # GitHub Repository Link:
 
-https://github.com/dddingnan/cs-665-assignment-2
+https://github.com/dddingnan/cs-665-assignment-3
 
 # Implementation Description
 
@@ -30,13 +30,13 @@ For each assignment, please answer the following:
 ### `Answer`
 
 1. `Flexibility`
-   - `CSV Data Storage`: Using CSV files for data storage makes it simple to add, modify, or remove drivers without changing the core code. For instance, if we wish to incorporate new types of drivers, such as drone pilots, we simply need to ensure that the new driver class implements the Observer interface by adding into the CSV files.
+   - `CSV Data Storage`: Leveraging CSV files for data storage offers flexibility in managing email templates. If there's a need to update, add, or remove email templates, it can be accomplished by modifying the CSV files without changing the core logic of the application.
 2. `Simplicity & Understandability`
-   - By using the observer pattern, ensuring each class has a single responsibility. This not only makes the code easier to read but also ensures that other developers can maintain and expand upon it without extensive effort.
+   - With an abstract Customer class and its specific implementations (e.g., BusinessCustomer, VIPCustomer), allows for easy identification of customer-specific behaviors and attributes.
 3. `Avoidance of Duplicated Code`
-   - Through `the use of interfaces` and `class inheritance`, duplicated code has been minimized.
+   - `Utilization of Inheritance and Interfaces`: With the use of the abstract Customer class, specific customer implementations can avoid duplicating common functionalities like fetching email messages. The code becomes leaner, more maintainable, and extensible.
 4. `Design patterns`
-   - `Observer Pattern`: This choice was made to ensure a clear separation between shops (or subjects) and drivers (or observers). When a shop has a new delivery request, it broadcasts this request to all available drivers. [When one object changes state, an open-ended number of dependent objects should be updated automatically.](https://en.wikipedia.org/wiki/Observer_pattern)
+   - `Factory Pattern`: The CustomerFactory is employed to create instances of different customer types based on the given CustomerType enum. [Using factory methods to deal with the problem of creating objects without having to specify the exact class of the object that will be created.](https://en.wikipedia.org/wiki/Factory_method_pattern)
 
 ## UML Diagram
 
