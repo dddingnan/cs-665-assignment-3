@@ -40,7 +40,7 @@ For each assignment, please answer the following:
 
 ## UML Diagram
 
-![UML Diagram](UMLs.svg)
+![UML Diagram](UML.svg)
 
 # Maven Commands
 
